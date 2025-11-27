@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:scout_shell/shell/shell_library.dart';
+import 'package:scout_shell/databasing/provider_service.dart';
+
+
+class QrTab extends StatelessWidget {
+  const QrTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(child: ColouredTab(color: Colors.purple[200]!, text: 'QR',),);
+  }
+}
+
+
+
+// QRPage is a stateless widget called when creating the QR code page.
+class QRPage extends StatefulWidget {
+  final VoidCallback? callback;
+  
+  const QRPage({super.key, this.callback}); // Constructor
+  @override
+  State<QRPage> createState() => _QRPageState();
+}
+class _QRPageState extends State<QRPage> {
+
+  // Building the widget tree
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.purple[200]!, // Setting the background colour
+      child: Center(
+        child: FutureBuilder<List<String>>(
+
+          // Getting QR data from the database, which uses a FutureBuilder because it is asynchronous
+          future: Provider.of<ScoutProvider>(context).getQRData(),
+          builder: (context, AsyncSnapshot<List<String>> snapShot) {
+            // If it got the QRData, show the QR code
+            if (snapShot.hasData) {
+              return Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 150), // Outer spacing
+                padding: const EdgeInsets.all(10.0), // Inner spacing
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25.0), // Rounding the corners
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, // Align to squish into the center
+                  children: [
+                    QrImageView(
+
+                      // The QR data is joined with tab to make it tab between each entry in the QR code 
+                      data: snapShot.data!.join("\t").toString(),
+                      version: QrVersions.auto,
+                      size: 500, // QR code size
+                      backgroundColor: Colors.white,
+                    ),
+                    NextMatchWidget(callback: widget.callback) // Button to move on to the next match
+                  ], // children:
+                ),
+              );
+            } else {
+              return const CircularProgressIndicator(); // Loading widget because it hasn't finished loading
+            }
+          }, // builder:
+        ),
+      ),
+    );
+  } // Widget build
+} // _QRPageState
