@@ -99,7 +99,7 @@ borderRadius
 margin
 padding
 
-### BoldText
+#### BoldText
 
 Essentially a Text widget but simplified and always bold
 Parameters:
@@ -107,32 +107,32 @@ text
 fontSize
 color
 
-### ColouredTab
+#### ColouredTab
 
 This is the widget for the correct tab formatting used in the app
 Parameters:
 color
 text
 
-### DriverSlider
+#### DriverSlider
 
 This is the widget for the driver rating (to be used in an end/overall performance page)
 No parameters.
 Already has a spot in the database.
 
-### DefenceSlider
+#### DefenceSlider
 
 This is the widget for the defence rating (to be used in an end/overall performance page)
 No parameters.
 Already has a spot in the database.
 
-### NotesWidget
+#### NotesWidget
 
 This is the widget for the written notes of the app (to be used in an end/overall performance page)
 No parameters.
 Already has a spot in the database.
 
-### NumberInputWidget
+#### NumberInputWidget
 
 This is the main number input widget used in the scouting app.
 Parameters:
@@ -148,7 +148,7 @@ buttonScale
 onChanged
 column
 
-### LabelledCheckBox
+#### LabelledCheckBox
 
 This is the main checkbox input widget used in the scouting app
 Parameters:
