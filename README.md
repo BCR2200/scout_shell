@@ -74,6 +74,9 @@ and the onCreate underneath ATTENTION (once more add the names for the game spec
 The second is the provider_service.dart, which handles the database interaction with the UI
 The area to update is the dataList for scoutItem (add the ScoutModel additions)
 
+If the database doesn't seem to work, it may be because it is using a previous database. 
+To reconfigure the database, clear the cache/storage of the app.
+
 ## Flutter coding/syntax
 
 Since Flutter is likely a new programming language for you, I recommend exploring its online documentation
