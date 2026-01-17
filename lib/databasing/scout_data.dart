@@ -155,7 +155,7 @@ class ScoutDatabase {
   static Future<String> getStringData(String table, String matchName, String column) async {
     final db = await ScoutDatabase.scoutDatabase();
     final result = await db.rawQuery('SELECT $column FROM $table WHERE match_name=?', [matchName]);
-    String data = result.first['notes'].toString();
+    String data = result.first[column].toString();
     return data;
   }
 
