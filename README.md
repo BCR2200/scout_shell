@@ -21,6 +21,10 @@ Once you have flutter fully installed (including the SDK), you can now clone thi
 
 If you do run into any errors, try running flutter doctor -v in a bash terminal to get status info
 
+If there is a kotlin error, under android/setting.gradle.kts try changing the version number in the line 
+"id("org.jetbrains.kotlin.android") version "2.1.0" apply false" to be your current version
+
+
 ## Part 2: Installing an emulator
 
 If you haven't already, install android studio https://developer.android.com/studio/install

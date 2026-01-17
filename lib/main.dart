@@ -30,7 +30,7 @@ void main() async {
       QrTab(),
     ],
     pages: [
-      QRPage(),
+      // QRPage(), this is commented out since it is already in app_layout, but is still here as an example
     ],  
   )); // Runs the app
 }

@@ -95,6 +95,8 @@ class _ScoutHomePageState extends State<ScoutHomePage> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
 
+    List<Widget> pageList = widget.pages + [QRPage(callback: () => setState(() => _tabController.index = 0),)];
+    
     // Setting the colours based on the tablet
     Color? colourOfTeam = blueAlliance ? Colors.blue[100] : Colors.red[100];
     Color? colourOfTeamSaturated = blueAlliance ? Colors.blue[50] : Colors.red[50];
@@ -157,7 +159,7 @@ class _ScoutHomePageState extends State<ScoutHomePage> with TickerProviderStateM
       // Creating the body/pages of each tab
       body: TabBarView(
         controller: _tabController, // Setting the controller
-        children: widget.pages, // Getting the pages from the constructor
+        children: pageList, // Getting the pages from the constructor
       ),
 
       drawer: SettingsWidget(
