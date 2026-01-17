@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../databasing/provider_service.dart';
 import '../../databasing/scout_data.dart';
 import 'shell_library.dart';
+import 'qr_tab.dart';
 
 
 
