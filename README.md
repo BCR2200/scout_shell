@@ -74,14 +74,17 @@ and the onCreate underneath ATTENTION (once more add the names for the game spec
 The second is the provider_service.dart, which handles the database interaction with the UI
 The area to update is the dataList for scoutItem (add the ScoutModel additions)
 
+If the database doesn't seem to work, it may be because it is using a previous database.
+To reconfigure the database, clear the cache/storage of the app.
+
 #### How to database in the app
 
 Once you have a functional input widget, there are a couple of steps to make it work in the database:
 
 1. Add the necessary column in the correct locations:
-    a. scout_data.dart's ScoutModel (in all the same places as the pre-made columns)  
-    b. scout_data.dart's db.execute (as valid SQL syntax)
-    c. provider_service.dart's scoutItem from ScoutModel
+   a. scout_data.dart's ScoutModel (in all the same places as the pre-made columns)  
+   b. scout_data.dart's db.execute (as valid SQL syntax)
+   c. provider_service.dart's scoutItem from ScoutModel
 
 2. Send data by:
     a. Wrapping your widget in a Consumer<ScoutProvider> widget
@@ -89,11 +92,11 @@ Once you have a functional input widget, there are a couple of steps to make it 
        using the .updateData(\[col], \[val]) method which takes the input of column name and data
 
 3. Load data by:
-    a. Using "await Provider.of<ScoutProvider>(context, listen: false).get___Data(\[columnName])
-       where ___ is the data type you're getting (either an int or a string)
-    b. IF NEEDED updating the state of the widget to reflect loaded data using setState((){})
-        - make sure to check if(mounted) otherwise you'll get an error
-        - I recommend making this a method to call in initState and in your Consumer<ScoutProvider>
+   a. Using "await Provider.of<ScoutProvider>(context, listen: false).get___Data(\[columnName])
+      where ___ is the data type you're getting (either an int or a string)
+   b. IF NEEDED updating the state of the widget to reflect loaded data using setState((){})
+      - make sure to check if(mounted) otherwise you'll get an error
+      - I recommend making this a method to call in initState and in your Consumer<ScoutProvider>
 
 ## Flutter coding/syntax
 
