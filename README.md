@@ -189,3 +189,18 @@ width
 redHighlight
 onChanged
 column
+
+#### SegmentedButtons
+
+This is the main multi-box input widget used in the scouting app
+It gives an integer to the database (based on index of pressed button)
+Parameters:
+title
+fontSize
+selectColor
+unselectedColor
+padding
+scale
+onChanged
+column
+labels
