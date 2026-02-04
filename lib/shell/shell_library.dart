@@ -1301,7 +1301,7 @@ class _MatchRenameWidgetState extends State<MatchRenameWidget> {
 
 
 // This widget is the fairly customizable box with a + and - button to input numbers
-// This is one of the two custom input widgets as part of this shell
+// This is one of the three custom input widgets as part of this shell
 class NumberInputWidget extends StatefulWidget {
   final String? title;
   final Color? fillColor;
@@ -1481,7 +1481,7 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
             scale: widget.scale,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center, // Squish everything in the center
-              children: [
+              children: <Widget> [
 
                 // Check if decrement button should be shown
                 if (widget.showButtons)
@@ -1549,7 +1549,7 @@ class _NumberInputWidgetState extends State<NumberInputWidget> {
 } // _NumberInputWidgetState
 
 // This widget is the fairly customizable checkbox
-// This is one of the two custom input widgets as part of this shell
+// This is one of the three custom input widgets as part of this shell
 class LabelledCheckBox extends StatefulWidget {
   final String? title;
   final Color? checkColor;
@@ -1679,3 +1679,107 @@ class _LabelledCheckBoxState extends State<LabelledCheckBox> {
     );
   } // build
 } // _LabelledCheckBoxState
+
+// This widget is the fairly customizable segmented buttons
+// This is one of the three custom input widgets as part of this shell
+class SegmentedButtons extends StatefulWidget {
+  final String? title;
+  final double fontSize;
+  final Color? selectColor;
+  final Color? unselectedColor;
+  final EdgeInsetsGeometry padding;
+  final double scale;
+  final VoidCallback? onChanged;
+  final String column; // Asking for the database column
+  final List<String> labels;
+
+  // Constructor (the this.[variable]s are like options for the widget
+  const SegmentedButtons({
+    super.key,
+    this.title,
+    this.fontSize = 16,
+    this.selectColor,
+    this.unselectedColor,
+    this.padding = const EdgeInsets.all(3.0),
+    this.scale = 1,
+    this.onChanged,
+    required this.column,
+    required this.labels});
+
+  @override
+  State<SegmentedButtons> createState() => _SegmentedButtonsState();
+}
+
+class _SegmentedButtonsState extends State<SegmentedButtons> {
+  late int _index;
+  late List<ButtonSegment<int>> buttons;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _index = 0;
+
+    for(int i = 0; i<widget.labels.length-1; i++){
+      buttons.add(
+        ButtonSegment<int>(
+          value: i,
+          label: BoldText(text: widget.labels.elementAt(i))
+        )
+      );
+    }
+
+    // Loading in data after the initial building with _loadData method
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _loadData();
+    });
+  }
+
+  // This method gets and sets the number value in the widget to the data from the database
+  Future <void> _loadData() async {
+    int data = await Provider.of<ScoutProvider>(context, listen: false).getIntData(widget.column);
+
+    // Reload the widget to display data only if it the widget is still displayed (due to async)
+    if (mounted) {
+      setState(() {
+        _index = data;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: widget.padding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (widget.title != null)
+            BoldText(text: widget.title!, fontSize: widget.fontSize),
+
+          Transform.scale(
+            scale: widget.scale,
+            child: SegmentedButton<int>(
+              style: SegmentedButton.styleFrom(
+                disabledBackgroundColor: widget.unselectedColor,
+                selectedBackgroundColor: widget.selectColor,
+              ),
+              segments: buttons,
+              selected: <int>{_index},
+              showSelectedIcon: false,
+              onSelectionChanged: (Set<int> newIndex){
+                setState(() {
+                  _index = newIndex.first;
+                  Provider.of<ScoutProvider>(context, listen: false).updateData(widget.column, _index);
+                  if(widget.onChanged != null){
+                    widget.onChanged!();
+                  }
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
